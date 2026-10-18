@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Staff login | MAV Estate</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body { background: #123a33; min-height: 100vh; display: grid; place-items: center; }
+  .box { background: #f9f9f7; border-radius: 1.5rem; padding: 2.25rem; width: min(420px, 92vw); }
+  .btn-ink { background: #12201d; color: #fff; border-radius: 3rem; padding: .7rem; font-weight: 600; }
+  .btn-ink:hover { background: #123a33; color: #fff; }
+  #c { letter-spacing: .6rem; font-size: 1.6rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="box">
+  <form id="f1" autocomplete="on">
+    <h1 class="h3 mb-1">Staff login</h1>
+    <p class="text-muted mb-4">MAV Estate admin. Authorised staff only.</p>
+    <label class="form-label" for="u">Username</label>
+    <input id="u" class="form-control mb-3" autocomplete="username" required autofocus>
+    <label class="form-label" for="p">Password</label>
+    <input id="p" type="password" class="form-control mb-3" autocomplete="current-password" required>
+    <div class="text-danger small mb-3" id="e1" role="alert"></div>
+    <button class="btn btn-ink w-100" id="b1">Continue</button>
+  </form>
+
+  <form id="f2" class="d-none" autocomplete="off">
+    <h1 class="h3 mb-1">Check your email</h1>
+    <p class="text-muted mb-4">We sent a 6-digit code to <strong id="em"></strong>. It expires in 10 minutes.</p>
+    <label class="form-label" for="c">Verification code</label>
+    <input id="c" class="form-control mb-3" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required>
+    <div class="text-danger small mb-3" id="e2" role="alert"></div>
+    <button class="btn btn-ink w-100 mb-2" id="b2">Verify and log in</button>
+    <div class="d-flex justify-content-between small">
+      <button type="button" class="btn btn-link p-0" id="resend">Send a new code</button>
+      <button type="button" class="btn btn-link p-0" id="back">Start over</button>
+    </div>
+  </form>
+</div>
+<script>
+const post = (url, data) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data || {}) });
+const msg = async r => { try { return await r.json(); } catch { return {}; } };
+const toStep1 = text => { f2.classList.add('d-none'); f1.classList.remove('d-none'); c.value = ''; p.value = ''; e1.textContent = text || ''; u.focus(); };
+
+f1.onsubmit = async e => {
+  e.preventDefault(); b1.disabled = true; e1.textContent = '';
+  try {
+    const r = await post('/api/login', { username: u.value, password: p.value }), d = await msg(r);
+    if (r.ok && d.step === 'code') { em.textContent = d.email; f1.classList.add('d-none'); f2.classList.remove('d-none'); e2.textContent = ''; c.focus(); }
+    else e1.textContent = d.error || 'Login failed.';
+  } catch { e1.textContent = 'Could not reach the server. Try again.'; }
+  p.value = ''; b1.disabled = false;
+};
+
+f2.onsubmit = async e => {
+  e.preventDefault(); b2.disabled = true; e2.textContent = '';
+  try {
+    const r = await post('/api/verify', { code: c.value }), d = await msg(r);
+    if (r.ok) return location.replace('/admin');
+    if (d.restart) return toStep1(d.error);
+    e2.textContent = d.error || 'Verification failed.'; c.value = ''; c.focus();
+  } catch { e2.textContent = 'Could not reach the server. Try again.'; }
+  b2.disabled = false;
+};
+
+resend.onclick = async () => {
+  e2.textContent = '';
+  const r = await post('/api/resend'), d = await msg(r);
+  if (d.restart) return toStep1(d.error);
+  e2.textContent = r.ok ? 'A new code is on its way.' : (d.error || 'Could not resend.');
+  e2.className = 'small mb-3 ' + (r.ok ? 'text-success' : 'text-danger');
+};
+back.onclick = () => toStep1();
+</script>
+</body>
+</html>

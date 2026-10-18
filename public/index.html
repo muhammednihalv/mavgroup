@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAV Estate | Villas, Commercial Buildings, Apartments and Land</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bs-body-font-family:'Inter',sans-serif;--bs-body-bg:#f9f9f7;--bs-body-color:#12201d;--ink:#12201d;--pine:#123a33;--brass:#b08a3e;--line:#dedcd3;--paper:#f9f9f7}
+h1,h2,h3,.disp{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.03em}
+a{color:inherit}
+.nav-wrap{position:fixed;top:0;left:0;right:0;z-index:30;padding:1rem 0;mix-blend-mode:normal}
+.nav-pill{background:rgba(249,249,247,.85);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:3rem;padding:.55rem .75rem .55rem 1.5rem}
+.logo{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.3rem;text-decoration:none}
+.nav-pill a.l{text-decoration:none;padding:.4rem .9rem;border-radius:2rem;font-weight:500}
+.nav-pill a.l:hover{background:var(--line)}
+.btn-ink{background:var(--ink);color:#fff;border-radius:3rem;padding:.65rem 1.4rem;font-weight:600;border:0}
+.btn-ink:hover{background:var(--pine);color:#fff}
+.btn-line{border:1.5px solid var(--ink);border-radius:3rem;padding:.65rem 1.4rem;font-weight:600;background:transparent}
+.btn-line:hover{background:var(--ink);color:#fff}
+/* hero */
+.hero{padding:7.5rem 0 3rem}
+.hero h1{font-size:clamp(2.8rem,8.5vw,7.5rem);line-height:.95;margin:0}
+.hero h1 span{display:block;animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 span:nth-child(2){animation-delay:.12s;color:var(--pine)}
+.hero h1 span:nth-child(3){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.panel{position:relative;background:var(--pine);border-radius:2rem;min-height:440px;overflow:hidden;color:#fff;margin-top:2.5rem}
+.panel svg{position:absolute;inset:auto 0 0 0;width:100%;height:78%}
+.search{position:absolute;left:1.5rem;right:1.5rem;top:1.5rem;background:var(--paper);color:var(--ink);border-radius:1.25rem;padding:1rem;max-width:760px}
+.search .form-control,.search .form-select{border:0;background:#efeee8;border-radius:.75rem}
+/* marquee */
+.marq{overflow:hidden;border-block:1px solid var(--line);padding:1.1rem 0;white-space:nowrap}
+.marq div{display:inline-block;animation:mq 32s linear infinite;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(1.6rem,3.5vw,2.8rem);letter-spacing:-.02em}
+.marq i{font-style:normal;color:var(--brass);margin:0 1.6rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* categories */
+.cat-row{display:grid;grid-template-columns:1fr 2fr auto;gap:1.5rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--line);cursor:pointer;transition:padding .25s}
+.cat-row:hover{padding-left:1rem;padding-right:1rem}
+.cat-row h3{font-size:clamp(1.8rem,4vw,3.4rem);margin:0}
+.cat-row p{margin:0;max-width:46ch;color:#4d5a56}
+.cat-row .go{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:1.3rem;transition:.25s}
+.cat-row:hover .go{background:var(--ink);color:#fff;transform:rotate(-45deg)}
+@media(max-width:768px){.cat-row{grid-template-columns:1fr auto}.cat-row p{grid-column:1/2;grid-row:2}}
+/* listings */
+.chip{border:1.5px solid var(--ink);border-radius:3rem;padding:.4rem 1.1rem;background:transparent;font-weight:500}
+.chip.active,.chip:hover{background:var(--ink);color:#fff}
+.filters .form-control,.filters .form-select{border-radius:.75rem;border-color:var(--line);background:#fff}
+.card.prop{border:0;background:transparent;cursor:pointer}
+.card.prop .pic{border-radius:1.5rem;overflow:hidden;aspect-ratio:4/3;background:#e8e6dc;position:relative}
+.card.prop .pic img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card.prop:hover .pic img{transform:scale(1.05)}
+.ph{height:100%;display:grid;place-items:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.6rem;color:#a39c86}
+.tag{position:absolute;left:.9rem;top:.9rem;background:var(--paper);border-radius:2rem;padding:.25rem .8rem;font-size:.8rem;font-weight:600}
+.price{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.35rem}
+/* numbers */
+.big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(3rem,8vw,6rem);line-height:1;letter-spacing:-.04em}
+/* cta */
+.cta{background:var(--ink);color:#fff;border-radius:2rem;padding:clamp(2rem,6vw,5rem)}
+.cta h2{font-size:clamp(2.4rem,7vw,6rem);line-height:.98}
+.cta .form-control{background:#1d332e;border:0;color:#fff;border-radius:.75rem}
+.cta .form-control::placeholder{color:#8fa39d}
+.cta .btn-light{border-radius:3rem;font-weight:600;padding:.7rem 1.6rem}
+footer{padding:2rem 0 5rem;color:#5b6763}
+/* floating */
+.cursor{position:fixed;width:34px;height:34px;border:1.5px solid var(--brass);border-radius:50%;pointer-events:none;z-index:60;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;display:none}
+.cursor.big2{width:64px;height:64px;background:rgba(176,138,62,.18)}
+@media(hover:hover) and (pointer:fine){.cursor{display:block}}
+.wa-float{position:fixed;left:1.25rem;bottom:1.25rem;z-index:40;border-radius:3rem;font-weight:600}
+.to-top{position:fixed;right:1.25rem;bottom:1.25rem;z-index:40;display:none;border-radius:50%;width:48px;height:48px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.prop:focus-visible,.cat-row:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.hero h1 span,.marq div{animation:none}.card.prop .pic img,.cat-row,.cat-row .go{transition:none}}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+
+<div class="nav-wrap"><div class="container"><div class="nav-pill d-flex align-items-center justify-content-between">
+  <a class="logo" href="/">MAV Estate</a>
+  <div class="d-none d-md-flex"><a class="l" href="#types">Property types</a><a class="l" href="#listings">Listings</a><a class="l" href="#about">About</a></div>
+  <a class="btn btn-ink" href="#contact">Talk to us</a>
+</div></div></div>
+
+<header class="hero"><div class="container">
+  <h1 class="disp"><span>Find a place</span><span>worth coming</span><span>home to.</span></h1>
+  <p class="mt-4 fs-5" style="max-width:48ch;color:#4d5a56">Villas, commercial buildings, apartments and land, listed and visited by our own team.</p>
+  <div class="panel">
+    <form class="search" id="heroSearch">
+      <div class="row g-2">
+        <div class="col-md-5"><input id="hq" class="form-control form-control-lg" placeholder="Search by name or location" aria-label="Search"></div>
+        <div class="col-md-4"><select id="hc" class="form-select form-select-lg" aria-label="Category"><option value="">All types</option></select></div>
+        <div class="col-md-3"><button class="btn btn-ink btn-lg w-100">Search</button></div>
+      </div>
+    </form>
+    <svg viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <g fill="none" stroke="#7fb3a6" stroke-width="2" opacity=".9">
+        <path d="M0 400V300h90V220h110v80h60V160h130v140h70V240h100v60h80V120h150v180h60V200h120v100h90V260h140v140"/>
+        <path d="M290 160h130M290 200h130M290 240h130M720 120h150M720 160h150M720 200h150M720 240h150"/>
+        <path d="M980 300l70-60 70 60v100h-140z" stroke="#b08a3e"/><path d="M1030 400v-50h40v50" stroke="#b08a3e"/>
+      </g>
+    </svg>
+  </div>
+</div></header>
+
+<div class="marq" aria-hidden="true"><div id="mq"></div></div>
+
+<section class="py-5 my-4" id="types"><div class="container">
+  <h2 class="disp display-4 mb-4">Every kind of property.</h2>
+  <div id="catRows"></div>
+</div></section>
+
+<main class="py-5" id="listings"><div class="container">
+  <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <h2 class="disp display-5 mb-0">Available now</h2>
+    <p class="text-muted mb-0" id="resultCount" aria-live="polite"></p>
+  </div>
+  <div class="d-flex flex-wrap gap-2 mb-3" id="cats" role="group" aria-label="Filter by category"></div>
+  <div class="filters row g-2 mb-4">
+    <div class="col-md-5"><input id="q" class="form-control" placeholder="Name or location" aria-label="Search listings"></div>
+    <div class="col-6 col-md-3"><select id="maxp" class="form-select" aria-label="Maximum price"><option value="0">Any price</option><option value="5000000">Up to ₹50 lakh</option><option value="10000000">Up to ₹1 crore</option><option value="30000000">Up to ₹3 crore</option><option value="100000000">Up to ₹10 crore</option></select></div>
+    <div class="col-6 col-md-2"><select id="sort" class="form-select" aria-label="Sort"><option value="new">Newest</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div>
+    <div class="col-md-2"><button class="btn btn-line w-100" id="reset" type="button">Clear filters</button></div>
+  </div>
+  <div class="row g-4" id="grid"></div>
+  <p class="text-center text-muted py-5 d-none" id="empty">No properties match these filters. Clear them or contact us and we will look for you.</p>
+</div></main>
+
+<section class="py-5 my-4" id="about"><div class="container">
+  <div class="row g-5 align-items-end">
+    <div class="col-lg-6"><h2 class="disp display-5">Local knowledge. Plain dealing.</h2>
+      <p class="fs-5 mt-3" style="color:#4d5a56;max-width:50ch">We help families and businesses buy, sell and lease property. Our team visits every listing before it goes online, and we stay with you through the paperwork and handover.</p></div>
+    <div class="col-lg-6"><div class="row g-4">
+      <div class="col-6"><div class="big" id="sCount">0</div><div class="text-muted">Properties listed</div></div>
+      <div class="col-6"><div class="big" id="sCats">0</div><div class="text-muted">Property types</div></div>
+    </div></div>
+  </div>
+</div></section>
+
+<section class="pb-5" id="contact"><div class="container"><div class="cta">
+  <div class="row g-5 align-items-center">
+    <div class="col-lg-7"><h2 class="disp">Looking to buy, sell or lease? Let’s talk.</h2>
+      <div class="mt-4 d-flex flex-wrap gap-2"><a class="btn btn-light" id="callBtn" href="tel:+910000000000">Call now</a><a class="btn btn-outline-light rounded-pill px-4 py-2" id="waBtn" target="_blank" rel="noopener" href="#">WhatsApp</a></div></div>
+    <div class="col-lg-5"><form id="enquiry" class="row g-2">
+      <div class="col-12"><label class="visually-hidden" for="n">Name</label><input id="n" class="form-control form-control-lg" placeholder="Your name" required></div>
+      <div class="col-12"><label class="visually-hidden" for="ph">Phone</label><input id="ph" class="form-control form-control-lg" placeholder="Phone number" required></div>
+      <div class="col-12"><label class="visually-hidden" for="m">Message</label><textarea id="m" rows="3" class="form-control" placeholder="What are you looking for?"></textarea></div>
+      <div class="col-12"><button class="btn btn-light w-100">Send on WhatsApp</button></div>
+    </form></div>
+  </div>
+</div></div></section>
+
+<footer><div class="container d-flex flex-wrap justify-content-between gap-2"><span>© MAV Estate</span><span>Open Monday to Saturday, 9:30 am to 6 pm</span></div></footer>
+
+<a class="btn btn-success wa-float" id="waFloat" target="_blank" rel="noopener" href="#">Chat on WhatsApp</a>
+<button class="btn btn-ink to-top" id="toTop" aria-label="Back to top">↑</button>
+<div class="modal fade" id="detail" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content" style="border-radius:1.5rem;overflow:hidden" id="detailBody"></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const WHATSAPP='918089071598'; // your number with country code, no +
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const DESC={'Commercial Building':'Shops, offices and whole buildings for your business.','Villa':'Independent homes with space, privacy and parking.','Apartment':'Ready-to-move flats close to schools and work.','Land':'Residential and commercial plots.','Other':'Farmhouses, warehouses and everything else we list.'};
+let items=[],cats=[],active='';
+const img=p=>p.image?`<img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy">`:`<div class="ph">${esc(p.category)}</div>`;
+const meta=p=>[p.location,p.beds?p.beds+' bed':'',p.area?p.area+' sq ft':''].filter(Boolean).map(esc).join(' · ');
+const go=id=>document.getElementById(id).scrollIntoView({behavior:'smooth'});
+
+function setActive(c){active=c;document.querySelectorAll('#cats .chip').forEach(x=>x.classList.toggle('active',x.dataset.c===c));render();}
+
+function render(){
+  const term=q.value.trim().toLowerCase(),max=Number(maxp.value);
+  const list=items.filter(p=>(!active||p.category===active)&&(!max||p.price<=max)&&(!term||(p.title+' '+p.location).toLowerCase().includes(term)));
+  if(sort.value==='low')list.sort((a,b)=>a.price-b.price);
+  if(sort.value==='high')list.sort((a,b)=>b.price-a.price);
+  resultCount.textContent=list.length+(list.length===1?' property found':' properties found');
+  empty.classList.toggle('d-none',list.length>0);
+  grid.innerHTML=list.map(p=>`<div class="col-md-6 col-lg-4"><div class="card prop h-100" data-id="${esc(p.id)}" tabindex="0">
+    <div class="pic">${img(p)}<span class="tag">${esc(p.category)}${p.status==='Sold'?' · Sold':''}</span></div>
+    <div class="pt-3"><h3 class="h5 mb-1">${esc(p.title)}</h3><div class="text-muted small mb-1">${meta(p)}</div><div class="price">${money(p.price)}</div></div></div></div>`).join('');
+}
+
+function openDetail(id){
+  const p=items.find(x=>x.id===id);if(!p)return;
+  const msg=encodeURIComponent(`Hello, I am interested in "${p.title}" (${money(p.price)}).`);
+  detailBody.innerHTML=`<div class="position-relative"><button class="btn-close position-absolute m-3 bg-white p-2 rounded-circle" style="right:0;z-index:2" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div style="aspect-ratio:16/9;background:#e8e6dc">${img(p).replace('<img','<img style="width:100%;height:100%;object-fit:cover"')}</div></div>
+    <div class="p-4"><span class="badge text-bg-light border mb-2">${esc(p.category)}</span><h2 class="disp h2">${esc(p.title)}</h2>
+    <div class="price fs-3 my-2">${money(p.price)}</div><div class="text-muted mb-3">${meta(p)}</div>
+    <p style="white-space:pre-line">${esc(p.description)}</p>
+    <a class="btn btn-ink" target="_blank" rel="noopener" href="https://wa.me/${WHATSAPP}?text=${msg}">Enquire on WhatsApp</a></div>`;
+  bootstrap.Modal.getOrCreateInstance('#detail').show();
+}
+grid.addEventListener('click',e=>{const c=e.target.closest('.prop');if(c)openDetail(c.dataset.id)});
+grid.addEventListener('keydown',e=>{if(e.key==='Enter'){const c=e.target.closest('.prop');if(c)openDetail(c.dataset.id)}});
+['q','maxp','sort'].forEach(id=>document.getElementById(id).addEventListener('input',render));
+reset.onclick=()=>{q.value='';maxp.value='0';sort.value='new';setActive('')};
+heroSearch.onsubmit=e=>{e.preventDefault();q.value=hq.value;setActive(hc.value);go('listings')};
+enquiry.onsubmit=e=>{e.preventDefault();window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Name: ${n.value}\nPhone: ${ph.value}\n${m.value}`)}`,'_blank')};
+waFloat.href=waBtn.href=`https://wa.me/${WHATSAPP}`;callBtn.href=`tel:+${WHATSAPP}`;
+addEventListener('scroll',()=>{toTop.style.display=scrollY>700?'block':'none'});
+toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+// cursor ring
+addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.toggle('big2',!!e.target.closest('a,button,.prop,.cat-row'))});
+
+(async()=>{
+  const [c,props]=await Promise.all([fetch('/api/categories').then(r=>r.json()),fetch('/api/properties').then(r=>r.json())]);
+  cats=c;items=props;
+  sCount.textContent=props.length;sCats.textContent=c.length;
+  hc.innerHTML='<option value="">All types</option>'+c.map(x=>`<option>${esc(x)}</option>`).join('');
+  const words=c.map(x=>`${esc(x)}<i>✦</i>`).join('');mq.innerHTML=words.repeat(4);
+  catRows.innerHTML=c.map(x=>{const k=props.filter(p=>p.category===x).length;
+    return `<div class="cat-row" data-c="${esc(x)}" tabindex="0" role="button"><h3>${esc(x)}</h3><p>${esc(DESC[x]||'')} <strong>${k} listed.</strong></p><span class="go" aria-hidden="true">→</span></div>`}).join('');
+  const pick=e=>{const r=e.target.closest('.cat-row');if(r){setActive(r.dataset.c);go('listings')}};
+  catRows.addEventListener('click',pick);catRows.addEventListener('keydown',e=>{if(e.key==='Enter')pick(e)});
+  cats_.innerHTML=['All',...c].map((x,i)=>`<button class="chip${i?'':' active'}" data-c="${i?esc(x):''}">${esc(x)}</button>`).join('');
+  render();
+})();
+const cats_=document.getElementById('cats');
+cats_.addEventListener('click',e=>{const b=e.target.closest('.chip');if(b)setActive(b.dataset.c)});
+</script>
+</body>
+</html>
